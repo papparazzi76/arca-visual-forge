@@ -18,8 +18,8 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 200 15% 25%;
 
-    /* Primary: Architectural Dark Gray (#37424A) */
-    --primary: 200 15% 25%;
+    /* Primary: Architectural Dark Gray (#37424A) - Corrected HSL value */
+    --primary: 202 15% 25%;
     --primary-foreground: 0 0% 98%;
 
     /* Secondary: Intense Orange (#E37222) */
