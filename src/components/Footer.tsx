@@ -1,5 +1,5 @@
 import { Hammer, Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react";
-import ArcaLogo from "@/assets/Logo_Horiz_Vect_rgb_ARCA_1.png";
+import ArcaLogo from "@/assets/Logo_Horiz_Vect_rgb_ARCA_2 (1).png";
 
 export const Footer = () => {
   return (
