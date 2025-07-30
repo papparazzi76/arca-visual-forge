@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload, Wand2, Eye, Download, Palette, Settings, Smartphone, Monitor } from "lucide-react";
+import { PlatformSelectorTrigger } from "./PlatformSelectorTrigger";
 
 const features = [
   {
@@ -111,9 +112,7 @@ export const FeatureShowcase = () => {
           </div>
 
           <div className="text-center">
-            <Button variant="hero" size="lg">
-              Comenzar a Crear
-            </Button>
+            <PlatformSelectorTrigger />
           </div>
         </div>
       </div>
