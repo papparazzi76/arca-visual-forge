@@ -1,4 +1,5 @@
 import { Hammer, Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react";
+import ArcaLogo from "@/assets/Logo_Horiz_Vect_rgb_ARCA_1.png";
 
 export const Footer = () => {
   return (
@@ -8,28 +9,24 @@ export const Footer = () => {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-accent rounded-lg">
-                <Hammer className="h-6 w-6 text-accent-foreground" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold">Arca Creator Studio</h3>
-                <p className="text-primary-foreground/80">by Arca Grupo Carranza S.L.</p>
-              </div>
+              <a href="/" className="flex items-center gap-2">
+                <img src={ArcaLogo} alt="Arca Grupo Carranza Logo" className="h-10" />
+              </a>
             </div>
             <p className="text-primary-foreground/80 mb-6 max-w-md">
               Especialistas en construcciones y reformas integrales. 
               Creamos espacios únicos con la máxima calidad y profesionalidad.
             </p>
             <div className="flex gap-4">
-              <div className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+              <a href="#" className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <Facebook className="h-5 w-5" />
-              </div>
-              <div className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+              </a>
+              <a href="#" className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <Instagram className="h-5 w-5" />
-              </div>
-              <div className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+              </a>
+              <a href="#" className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <Linkedin className="h-5 w-5" />
-              </div>
+              </a>
             </div>
           </div>
 
@@ -39,17 +36,17 @@ export const Footer = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-accent" />
-                <span className="text-primary-foreground/80">+34 XXX XXX XXX</span>
+                <span className="text-primary-foreground/80">983 36 12 50</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-accent" />
-                <span className="text-primary-foreground/80">info@arcagrupocarranza.com</span>
+                <span className="text-primary-foreground/80">arca@arcal.es</span>
               </div>
               <div className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-accent mt-1" />
                 <span className="text-primary-foreground/80">
-                  Dirección de la empresa<br />
-                  Ciudad, CP
+                  Calle Ferrari 5<br />
+                  47002 Valladolid
                 </span>
               </div>
             </div>
