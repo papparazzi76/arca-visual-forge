@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Instagram, Facebook, Linkedin, PlayCircle, FileImage, Layers } from "lucide-react";
+import { PublicationCreator } from "./PublicationCreator";
 
 const templates = [
   {
@@ -76,6 +78,19 @@ const getPlatformIcon = (platform: string) => {
 };
 
 export const TemplateLibrary = () => {
+  const [selectedTemplate, setSelectedTemplate] = useState<typeof templates[0] | null>(null);
+  const [isCreatorOpen, setIsCreatorOpen] = useState(false);
+
+  const handleUseTemplate = (template: typeof templates[0]) => {
+    setSelectedTemplate(template);
+    setIsCreatorOpen(true);
+  };
+
+  const handleCloseCreator = () => {
+    setIsCreatorOpen(false);
+    setSelectedTemplate(null);
+  };
+
   return (
     <section className="py-16 bg-background">
       <div className="container px-6">
@@ -119,7 +134,12 @@ export const TemplateLibrary = () => {
                     {template.type}
                   </Badge>
                 </div>
-                <Button className="w-full" variant="outline" size="sm">
+                <Button 
+                  className="w-full" 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => handleUseTemplate(template)}
+                >
                   Usar Plantilla
                 </Button>
               </CardContent>
@@ -133,6 +153,12 @@ export const TemplateLibrary = () => {
           </Button>
         </div>
       </div>
+
+      <PublicationCreator
+        isOpen={isCreatorOpen}
+        onClose={handleCloseCreator}
+        template={selectedTemplate}
+      />
     </section>
   );
 };

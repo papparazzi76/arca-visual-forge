@@ -1,0 +1,2 @@
+-- Enable the project for OpenAI integration
+-- This ensures we have the proper setup for AI-powered content generation
