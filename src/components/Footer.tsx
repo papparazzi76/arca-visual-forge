@@ -9,22 +9,22 @@ export const Footer = () => {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <a href="/" className="flex items-center gap-2">
+              <a href="https://www.arcasl.es" className="flex items-center gap-2">
                 <img src={ArcaLogo} alt="Arca Grupo Carranza Logo" className="h-10" />
               </a>
             </div>
             <p className="text-primary-foreground/80 mb-6 max-w-md">
-              Especialistas en construcciones y reformas integrales. 
+              Especialistas en construcciones y reformas integrales.
               Creamos espacios únicos con la máxima calidad y profesionalidad.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+              <a href="https://www.arcasl.es" className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+              <a href="https://www.arcasl.es" className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="#" className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+              <a href="https://www.arcasl.es" className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <Linkedin className="h-5 w-5" />
               </a>
             </div>
@@ -56,16 +56,16 @@ export const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-6">Enlaces</h4>
             <div className="space-y-3">
-              <a href="#" className="block text-primary-foreground/80 hover:text-accent transition-colors">
+              <a href="https://www.arcasl.es" className="block text-primary-foreground/80 hover:text-accent transition-colors">
                 Acerca de Nosotros
               </a>
-              <a href="#" className="block text-primary-foreground/80 hover:text-accent transition-colors">
+              <a href="https://www.arcasl.es" className="block text-primary-foreground/80 hover:text-accent transition-colors">
                 Nuestros Servicios
               </a>
-              <a href="#" className="block text-primary-foreground/80 hover:text-accent transition-colors">
+              <a href="https://www.arcasl.es" className="block text-primary-foreground/80 hover:text-accent transition-colors">
                 Portfolio
               </a>
-              <a href="#" className="block text-primary-foreground/80 hover:text-accent transition-colors">
+              <a href="https://www.arcasl.es" className="block text-primary-foreground/80 hover:text-accent transition-colors">
                 Contacto
               </a>
             </div>
