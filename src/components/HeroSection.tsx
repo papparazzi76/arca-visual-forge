@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Sparkles, Zap, Shield } from "lucide-react";
-import heroImage from "@/assets/hero-construction.jpg";
+import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
+import beforeImage from "@/assets/living-room-before.jpg";
+import afterImage from "@/assets/living-room-after.jpg";
 
 export const HeroSection = () => {
   return (
@@ -50,14 +52,13 @@ export const HeroSection = () => {
           </div>
 
           <div className="relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-brand">
-              <img 
-                src={heroImage} 
-                alt="Arca Construcciones - Profesionales en acción"
-                className="w-full h-[600px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
-            </div>
+            <BeforeAfterSlider
+              beforeImage={beforeImage}
+              afterImage={afterImage}
+              beforeAlt="Salón antes de la reforma - estado original"
+              afterAlt="Salón después de la reforma - resultado profesional"
+              className="w-full h-[600px] shadow-brand"
+            />
           </div>
         </div>
       </div>
