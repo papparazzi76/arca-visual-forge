@@ -42,6 +42,7 @@ export const PublicationCreator = ({ isOpen, onClose, template }: PublicationCre
   const [generatedContent, setGeneratedContent] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [images, setImages] = useState<File[]>([]);
+  const [videos, setVideos] = useState<File[]>([]);
   const [customText, setCustomText] = useState("");
 
   const getPlatformIcon = (platform: string) => {
@@ -58,6 +59,12 @@ export const PublicationCreator = ({ isOpen, onClose, template }: PublicationCre
         return <ImageIcon className="h-4 w-4" />;
     }
   };
+
+  // Determine what media types are supported based on platform
+  const supportsImages = template?.platform !== "TikTok";
+  const supportsVideos = template?.platform === "TikTok" || template?.platform === "Instagram";
+  const maxImages = template?.type === "Carrusel" ? 10 : 1;
+  const maxVideos = template?.platform === "TikTok" ? 1 : (template?.type === "Reel" ? 1 : 3);
 
   const generateContent = async () => {
     if (!prompt.trim()) {
@@ -99,15 +106,28 @@ export const PublicationCreator = ({ isOpen, onClose, template }: PublicationCre
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    if (images.length + files.length > 10) {
-      toast.error("Máximo 10 imágenes permitidas");
+    if (images.length + files.length > maxImages) {
+      toast.error(`Máximo ${maxImages} imágenes permitidas para ${template?.type}`);
       return;
     }
-    setImages(prev => [...prev, ...files.slice(0, 10 - prev.length)]);
+    setImages(prev => [...prev, ...files.slice(0, maxImages - prev.length)]);
+  };
+
+  const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    if (videos.length + files.length > maxVideos) {
+      toast.error(`Máximo ${maxVideos} video(s) permitido(s) para ${template?.platform}`);
+      return;
+    }
+    setVideos(prev => [...prev, ...files.slice(0, maxVideos - prev.length)]);
   };
 
   const removeImage = (index: number) => {
     setImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const removeVideo = (index: number) => {
+    setVideos(prev => prev.filter((_, i) => i !== index));
   };
 
   const copyContent = () => {
@@ -149,7 +169,9 @@ export const PublicationCreator = ({ isOpen, onClose, template }: PublicationCre
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="content">Contenido</TabsTrigger>
-            <TabsTrigger value="images">Imágenes</TabsTrigger>
+            <TabsTrigger value="media">
+              {template?.platform === "TikTok" ? "Videos" : "Media"}
+            </TabsTrigger>
             <TabsTrigger value="preview">Vista Previa</TabsTrigger>
           </TabsList>
 
@@ -207,57 +229,121 @@ export const PublicationCreator = ({ isOpen, onClose, template }: PublicationCre
             </Card>
           </TabsContent>
 
-          <TabsContent value="images" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Subir Imágenes (máximo 10)</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
-                    <Input
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                      id="image-upload"
-                    />
-                    <Label htmlFor="image-upload" className="cursor-pointer">
-                      <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                      <p className="text-sm text-muted-foreground">
-                        Arrastra imágenes aquí o haz clic para seleccionar
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        {images.length}/10 imágenes cargadas
-                      </p>
-                    </Label>
-                  </div>
-
-                  {images.length > 0 && (
-                    <div className="grid grid-cols-3 gap-4">
-                      {images.map((image, index) => (
-                        <div key={index} className="relative">
-                          <img
-                            src={URL.createObjectURL(image)}
-                            alt={`Preview ${index + 1}`}
-                            className="w-full h-24 object-cover rounded-lg"
-                          />
-                          <Button
-                            variant="destructive"
-                            size="icon"
-                            className="absolute -top-2 -right-2 h-6 w-6"
-                            onClick={() => removeImage(index)}
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      ))}
+          <TabsContent value="media" className="space-y-4">
+            {supportsImages && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    Subir Imágenes (máximo {maxImages})
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
+                      <Input
+                        type="file"
+                        multiple={maxImages > 1}
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        id="image-upload"
+                      />
+                      <Label htmlFor="image-upload" className="cursor-pointer">
+                        <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                        <p className="text-sm text-muted-foreground">
+                          Arrastra imágenes aquí o haz clic para seleccionar
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          {images.length}/{maxImages} imágenes cargadas
+                        </p>
+                      </Label>
                     </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+
+                    {images.length > 0 && (
+                      <div className="grid grid-cols-3 gap-4">
+                        {images.map((image, index) => (
+                          <div key={index} className="relative">
+                            <img
+                              src={URL.createObjectURL(image)}
+                              alt={`Preview ${index + 1}`}
+                              className="w-full h-24 object-cover rounded-lg"
+                            />
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              className="absolute -top-2 -right-2 h-6 w-6"
+                              onClick={() => removeImage(index)}
+                            >
+                              <X className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {supportsVideos && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    Subir Videos (máximo {maxVideos})
+                    {template?.platform === "TikTok" && (
+                      <p className="text-sm text-muted-foreground font-normal mt-1">
+                        Formato vertical recomendado 9:16 para TikTok
+                      </p>
+                    )}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
+                      <Input
+                        type="file"
+                        multiple={maxVideos > 1}
+                        accept="video/*"
+                        onChange={handleVideoUpload}
+                        className="hidden"
+                        id="video-upload"
+                      />
+                      <Label htmlFor="video-upload" className="cursor-pointer">
+                        <PlayCircle className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                        <p className="text-sm text-muted-foreground">
+                          Arrastra videos aquí o haz clic para seleccionar
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          {videos.length}/{maxVideos} video(s) cargado(s)
+                        </p>
+                      </Label>
+                    </div>
+
+                    {videos.length > 0 && (
+                      <div className="grid grid-cols-2 gap-4">
+                        {videos.map((video, index) => (
+                          <div key={index} className="relative">
+                            <video
+                              src={URL.createObjectURL(video)}
+                              className="w-full h-32 object-cover rounded-lg"
+                              controls
+                            />
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              className="absolute -top-2 -right-2 h-6 w-6"
+                              onClick={() => removeVideo(index)}
+                            >
+                              <X className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
           <TabsContent value="preview" className="space-y-4">
@@ -275,19 +361,38 @@ export const PublicationCreator = ({ isOpen, onClose, template }: PublicationCre
                 )}
 
                 {images.length > 0 && (
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {images.map((image, index) => (
-                      <img
-                        key={index}
-                        src={URL.createObjectURL(image)}
-                        alt={`Preview ${index + 1}`}
-                        className="w-full h-32 object-cover rounded-lg"
-                      />
-                    ))}
+                  <div className="space-y-2">
+                    <h4 className="font-medium">Imágenes:</h4>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {images.map((image, index) => (
+                        <img
+                          key={index}
+                          src={URL.createObjectURL(image)}
+                          alt={`Preview ${index + 1}`}
+                          className="w-full h-32 object-cover rounded-lg"
+                        />
+                      ))}
+                    </div>
                   </div>
                 )}
 
-                {(generatedContent || customText) && (
+                {videos.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="font-medium">Videos:</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {videos.map((video, index) => (
+                        <video
+                          key={index}
+                          src={URL.createObjectURL(video)}
+                          className="w-full h-40 object-cover rounded-lg"
+                          controls
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {(generatedContent || customText || images.length > 0 || videos.length > 0) && (
                   <div className="flex gap-2">
                     <Button variant="outline" onClick={copyContent}>
                       <Copy className="mr-2 h-4 w-4" />
